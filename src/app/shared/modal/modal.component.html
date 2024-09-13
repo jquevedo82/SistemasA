@@ -1,0 +1,10 @@
+<div mat-dialog-content class="modal-content">
+  <img [src]="data.image ? data.image : (data.type === 'error' ? defaultErrorImage : defaultImage)"
+       alt="modal image"
+       class="modal-image">
+  <p>{{ data.message }}</p>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="closeModal()">{{ data.buttonText }}</button>
+</div>

@@ -1,0 +1,23 @@
+/* Ajusta la altura del mat-nav-list para que el scroll se vea */
+.scrollable-nav-list {
+  max-height: 95%; /* Ajusta según lo que necesites */
+  overflow-y: auto;
+}
+
+/* Personaliza el diseño del scroll */
+.scrollable-nav-list::-webkit-scrollbar {
+  width: 8px; /* Tamaño del scroll */
+}
+
+.scrollable-nav-list::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color del fondo del scroll */
+}
+
+.scrollable-nav-list::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color del scroll */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.scrollable-nav-list::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color cuando pasas el mouse sobre el scroll */
+}
