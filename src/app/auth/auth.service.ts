@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { TokenService } from '../services/token.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class AuthService {
   private authTokenKey = environment.authTokenKey;
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService) { }
+  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService,private toastrService: ToastrService) { }
 
   login(username: string, password: string): Observable<any> {
     console.log(`${this.apiUrl}/login`);
@@ -39,6 +40,7 @@ export class AuthService {
   }
   // Método para refrescar el token
   refreshToken(): Observable<any> {
+
     return this.http.post<any>(`${this.apiUrl}/refresh-token`, {
       token: localStorage.getItem(this.authTokenKey)
     }).pipe(

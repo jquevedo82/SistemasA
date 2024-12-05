@@ -8,7 +8,7 @@
 
   <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Usuario</mat-label>
+      <mat-label>Usuario2</mat-label>
       <input matInput formControlName="username" required />
       <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
         Usuario Requerido

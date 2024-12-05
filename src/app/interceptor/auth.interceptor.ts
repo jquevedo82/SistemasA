@@ -31,29 +31,32 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && this.authService.tokenExpired(token)) {
-          this.refreshingToken = true;
+          console.log("Token vencido");
+          this.authService.logout();
+          return next.handle(req);
+          // this.refreshingToken = true;
 
-          return this.authService.refreshToken().pipe(
-            switchMap((newToken: any) => {
-              this.refreshingToken = false;
-              localStorage.setItem('authToken', newToken.token);
-              // Reintentar las solicitudes pendientes
-              const retryRequests = this.pendingRequests.map(pendingReq =>
-                next.handle(this.addTokenToRequest(pendingReq, newToken.token))
-              );
-              this.pendingRequests = [];
-              // Reintentar la solicitud actual
-              return from(retryRequests).pipe(
-                switchMap(() => next.handle(this.addTokenToRequest(req, newToken.token)))
-              );
-            }),
-            catchError((err) => {
-              this.refreshingToken = false;
-              this.authService.logout();
-              this.router.navigate(['/login']);
-              return throwError(err);
-            })
-          );
+          // return this.authService.refreshToken().pipe(
+          //   switchMap((newToken: any) => {
+          //     this.refreshingToken = false;
+          //     localStorage.setItem('authToken', newToken.token);
+          //     // Reintentar las solicitudes pendientes
+          //     const retryRequests = this.pendingRequests.map(pendingReq =>
+          //       next.handle(this.addTokenToRequest(pendingReq, newToken.token))
+          //     );
+          //     this.pendingRequests = [];
+          //     // Reintentar la solicitud actual
+          //     return from(retryRequests).pipe(
+          //       switchMap(() => next.handle(this.addTokenToRequest(req, newToken.token)))
+          //     );
+          //   }),
+          //   catchError((err) => {
+          //     this.refreshingToken = false;
+          //     this.authService.logout();
+          //     this.router.navigate(['/login']);
+          //     return throwError(err);
+          //   })
+          // );
         // } else if (error.status === 401 && this.refreshingToken) {
         //   // Añadir solicitud a la lista de pendientes si se está renovando el token
         //   return new Observable<HttpEvent<any>>(observer => {

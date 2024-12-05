@@ -28,7 +28,9 @@ import { loginGuard } from './login.guard';
     // MatCardModule,
     MaterialModule,
     RouterModule.forChild([
-      { path: 'login', component: LoginComponent , canActivate: [loginGuard]}
+      { path: 'login', component: LoginComponent , canActivate: [loginGuard]},
+      { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+      { path: '**', redirectTo: 'auth/login' }
     ])
   ],
 })

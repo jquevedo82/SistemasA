@@ -29,6 +29,7 @@ export class LoginComponent {
       this.authService.login(username, password).subscribe({
         next: (data) => {
           // Redirige al usuario a la página principal o donde corresponda
+
           if (!data.data) {
             this.toastrService.error(data.response.message, 'Fail', {
               timeOut: 3000,

@@ -1,12 +1,26 @@
+/* Define el ancho del sidenav en pantallas grandes */
 .xxx {
-  width: 15%;
-
+  width: 20%; /* Ancho en pantallas grandes */
 }
+
+/* Estilos para pantallas más pequeñas (dispositivos móviles) */
+@media (max-width: 768px) { /* Puedes ajustar el valor de 768px según lo que consideres un dispositivo móvil */
+  .xxx {
+    width: 60%; /* Ancho del sidenav en dispositivos móviles */
+  }
+}
+
+/* Estilos para pantallas muy pequeñas, por ejemplo, en dispositivos con pantallas pequeñas */
+@media (max-width: 480px) { /* Puedes ajustar este valor según tus necesidades */
+  .xxx {
+    width: 70%; /* Ancho del sidenav en pantallas más pequeñas */
+  }
+}
+
 /* Ajusta la altura del mat-nav-list para que el scroll se vea */
 .main-content {
   max-height: 90%; /* Ajusta según lo que necesites */
   overflow-y: auto;
-
 }
 
 /* Personaliza el diseño del scroll */
