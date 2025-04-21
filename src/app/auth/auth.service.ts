@@ -21,8 +21,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
         localStorage.setItem(this.authTokenKey, response.data);
-        this.tokenservice.setToken(response.data,username)
+        this.tokenservice.setToken(response.data)
         this.currentUserSubject.next(username); // Opcional: manejar el usuario actual
+        this.toastrService.success('Login exitoso', 'Bienvenido');
       }),
       catchError(error => {
         console.log("Error durante la solicitud de login:", error); // Detalle del error
@@ -53,6 +54,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.authTokenKey);
     this.currentUserSubject.next(null);
+    this.toastrService.info('Sesión cerrada', 'Hasta luego');
     this.router.navigate(['/login']);
   }
   // Manejo de errores
@@ -69,7 +71,7 @@ export class AuthService {
     if (!this.isAuthenticated()) {
       return true;
     }
-    console.log(token);
+    console.log(token+'7');
     const payload = token.split('.')[1];
     const values = atob(payload);
     const valuesJson = JSON.parse(values);

@@ -4,6 +4,7 @@ import { Observable, throwError, from } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { TokenService } from '../services/token.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -11,10 +12,10 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshingToken = false;
   private pendingRequests: Array<HttpRequest<any>> = [];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService,private tokenService: TokenService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();
+    const token = this.tokenService.getToken();
     let authReq = req;
     if (!this.authService.isAuthenticated()) {
       return next.handle(req);
@@ -30,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 && this.authService.tokenExpired(token)) {
+        if (error.status === 401 && this.tokenService.isTokenExpired()) {
           console.log("Token vencido");
           this.authService.logout();
           return next.handle(req);

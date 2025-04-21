@@ -12,13 +12,19 @@ export class HeaderComponent {
   isFullscreen = false;
   unreadMails: number = 0;
   unreadNotifications: number = 0;
-  usuario !: string;
+  usuario !: string | null;
+  unreadMailsBadge : any;
+  unreadNotificationsBadge : any;
 
   @Input() sidenav!: MatSidenav;
   constructor(private authService: AuthService,private tokenservice: TokenService) {
 
     this.unreadNotifications=15;
-    this.unreadMails = 3;
+    this.unreadMails = 0;
+
+    this.unreadMailsBadge = this.unreadMails > 0 ? this.unreadMails : '';
+    this.unreadNotificationsBadge = this.unreadNotifications > 0 ? this.unreadNotifications : '';
+
     this.usuario=this.tokenservice.getDescri();
   }
 

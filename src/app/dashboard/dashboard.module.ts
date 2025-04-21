@@ -11,13 +11,15 @@ import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
 import { MaterialModule } from '../material/material.module';
+import { UserMenuComponent } from './header/user-menu.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    DashboardHomeComponent
+    DashboardHomeComponent,
+    UserMenuComponent
   ],
   imports: [
     CommonModule,

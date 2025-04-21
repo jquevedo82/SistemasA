@@ -1,23 +1,48 @@
-/* Ajusta la altura del mat-nav-list para que el scroll se vea */
-.scrollable-nav-list {
-  max-height: 95%; /* Ajusta según lo que necesites */
-  overflow-y: auto;
+nav {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 10px;
 }
 
-/* Personaliza el diseño del scroll */
-.scrollable-nav-list::-webkit-scrollbar {
-  width: 8px; /* Tamaño del scroll */
+.menu-sector {
+  margin-bottom: 20px;
 }
 
-.scrollable-nav-list::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color del fondo del scroll */
+.sector-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.scrollable-nav-list::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color del scroll */
-  border-radius: 10px; /* Bordes redondeados */
+.sector-title:hover {
+  background-color: #e0e0e0;
 }
 
-.scrollable-nav-list::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Color cuando pasas el mouse sobre el scroll */
+.sector-options {
+  list-style-type: none;
+  padding-left: 20px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.menu-sector li {
+  margin-bottom: 10px;
+}
+
+.menu-sector a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.material-icons {
+  margin-right: 5px;
+}
+
+.toggle-icon {
+  font-size: 16px;
 }

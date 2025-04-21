@@ -12,6 +12,7 @@ import {MatListModule} from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTreeModule } from '@angular/material/tree';
 
 
 @NgModule({
@@ -33,6 +34,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
      MatMenuModule,
      MatBadgeModule,
      MatTooltipModule,
+     MatTreeModule,
+     MatIconModule,
 
   ],
 })

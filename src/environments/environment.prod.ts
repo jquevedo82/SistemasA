@@ -12,5 +12,5 @@ export const environment = {
   sucursalURL: 'http://192.168.0.6:8082/sucursales',
   personalURL: 'http://192.168.0.6:8082/personal',
   menuURL: 'http://192.168.0.6:8082/menu',
-    authTokenKey: 'authToken'
+    authTokenKey: 'authToken2'
 };

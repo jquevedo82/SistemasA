@@ -23,11 +23,13 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loginForm.invalid">
+    <button mat-raised-button color="primary" class="full-width" type="submit"
+      [disabled]="loginForm.invalid || isSubmitting">
       Login
     </button>
   </form>
 </mat-card>
 
-<!-- <button mat-raised-button (click)="openConfirmModal()">Show Modal</button> -->
-
+<button mat-raised-button (click)="openConfirmModal()">Show Confirm</button>
+<button mat-raised-button (click)="openModalSweet()">Show Modal Sweet</button>
+<button mat-raised-button (click)="openModal()">Show Modal</button>

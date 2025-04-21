@@ -1,31 +1,19 @@
-<mat-nav-list class="scrollable-nav-list">
-  <a mat-list-item routerLink="/dashboard/home">xxx</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 22</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-  <!-- Añade los elementos restantes -->
-  <a mat-list-item routerLink="/dashboard/home">Home</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 1</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-
-  <a mat-list-item routerLink="/dashboard/home">Home</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 1</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-
-  <a mat-list-item routerLink="/dashboard/home">Home</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 1</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-
-  <a mat-list-item routerLink="/dashboard/home">Home</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 1</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-
-  <a mat-list-item routerLink="/dashboard/home">Home</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 1</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-
-  <a mat-list-item routerLink="/dashboard/home">Home</a>
-  <a mat-list-item routerLink="/dashboard/page1">Page 1</a>
-  <a mat-list-item routerLink="/dashboard/page2">Page 2</a>
-
-</mat-nav-list>
-
+<nav>
+  <div *ngFor="let sector of menuSectors" class="menu-sector">
+    <h3 (click)="toggleSector(sector)" class="sector-title">
+      <i class="material-icons">{{ sector.icon }}</i>
+      {{ sector.name }}
+      <i class="material-icons toggle-icon">
+        {{ sector.isOpen ? 'expand_less' : 'expand_more' }}
+      </i>
+    </h3>
+    <ul *ngIf="sector.isOpen" class="sector-options">
+      <li *ngFor="let option of sector.options">
+        <a [routerLink]="option.route">
+          <i class="material-icons">{{ option.icon }}</i>
+          {{ option.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

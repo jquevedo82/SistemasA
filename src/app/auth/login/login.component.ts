@@ -15,7 +15,7 @@ import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-moda
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  isSubmitting: boolean = false
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private dialog: MatDialog, private toastrService: ToastrService,) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -25,35 +25,37 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
+      this.isSubmitting = true; // Deshabilitar el botón de login
       const { username, password } = this.loginForm.value;
       this.authService.login(username, password).subscribe({
         next: (data) => {
           // Redirige al usuario a la página principal o donde corresponda
 
           if (!data.data) {
-            this.toastrService.error(data.response.message, 'Fail', {
-              timeOut: 3000,
-              positionClass: 'toast-top-center',
-            });
+            this.toastrService.error(data.response.message);
           } else { this.router.navigate(['/dashboard']); }
+          this.isSubmitting = false; // Rehabilitar el botón después de la respuesta
         },
         error: (err) => {
-          this.toastrService.error(err.error.message, 'Fail', {
-            timeOut: 3000,
+
+          this.toastrService.error(err.error.message, 'Fail2', {
+            timeOut: 2000,
             positionClass: 'toast-top-center',
           });
           console.error('Login error:', err);
+          this.isSubmitting = false; // Rehabilitar el botón después de un error
         }
       });
     }
   }
+
   openModal() {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '300px',           // Puedes ajustar el ancho del modal si lo deseas
       data: {
         message: 'Operation completed successfully!',
         // image: 'assets/img/pagina-de-error.png',
-        type: 'error' /* o 'error',*/,
+        //type: 'error' /* o 'error',*/,
         buttonText: 'Cerrar'  // Personaliza el texto del botón
         // Puedes también pasar una imagen personalizada: image: 'path-to-image'
       },
@@ -69,7 +71,7 @@ export class LoginComponent {
       data: {
         title: 'Información',
         message: 'Operación realizada con éxito---',
-        // imageUrl: 'https://via.placeholder.com/150', // Imagen opcional
+        // imageUrl: 'assets/img/pagina-de-error.png', // Imagen opcional
         buttonText: 'Entendido3'
       }
     });

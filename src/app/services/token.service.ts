@@ -1,94 +1,74 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
+  private readonly authTokenKey = environment.authTokenKey;
+
   constructor() {}
+
+  // Método para guardar el token en localStorage
+  setToken(token: string): void {
+    localStorage.setItem(this.authTokenKey, token);
+  }
+
+  // Método para obtener el token del localStorage
+  getToken(): string | null {
+    return localStorage.getItem(this.authTokenKey);
+  }
+
+  // Comprobar si el usuario está conectado (tiene un token válido)
   isLogged(): boolean {
-    if (this.getToken()) {
-      return true;
-    }
-
-    return false;
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(); // Verifica que el token exista y no esté vencido
   }
 
-  setToken(token: string,usuario: string): void {
+  // Validación de la expiración del token
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
 
-    localStorage.setItem('token', token);
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-
-  }
-
-  getToken(): any {
-    return localStorage.getItem('token');
-  }
-  getUsuario(): any {
-
-    const usuario = localStorage.getItem('usuario');
-     //console.log(JSON.parse(usuario),1);
-     if (usuario !== null) {
-      // El valor no es null, por lo que es seguro asignarlo a una variable de tipo string
-      const usuarioString: string = usuario;
-      console.log(JSON.parse(usuarioString));
-      return JSON.parse(usuarioString);
-  }
-
-  }
-  tokenExpired(token: any): boolean {
-    if (!this.isLogged()) {
-      return true;
-    }
-    const payload = token.split('.')[1];
-    const values = atob(payload);
-    const valuesJson = JSON.parse(values);
+    const payload = this.decodePayload(token);
     const currentTime = Date.now();
-    //console.log(valuesJson,currentTime);
-    if (valuesJson.exp * 1000 < currentTime) return true;
-    return false; // Devuelve true si el token está vencido, de lo contrario, false
-  }
-  getUserName(): any {
-    //localStorage.clear();
-    if (!this.isLogged()) {
-      // console.log("aqui");
-      return null;
-    }
-    const token = this.getToken();
-    const payload = token.split('.')[1];
-    const values = atob(payload);
-    const valuesJson = JSON.parse(values);
-    const username = valuesJson.username;
-    return username;
-  }
-  getDescri(): any {
-    if (!this.isLogged()) {
-      // console.log("aqui");
-      return null;
-    }
-    const token = this.getToken();
-    const payload = token.split('.')[1];
-    const values = atob(payload);
-    const valuesJson = JSON.parse(values);
-    const descri = valuesJson.descri;
-    return descri;
-  }
-  isAdmin(): boolean {
-    if (!this.isLogged()) {
-      return false;
-    }
-    const token = this.getToken();
-    const payload = token.split('.')[1];
-    const values = atob(payload);
-    const valuesJson = JSON.parse(values);
-    const username = valuesJson.username;
-    const roles = valuesJson.roles;
-    if (roles.indexOf('admin') < 0) {
-      return false;
-    }
-    return true;
+
+    return payload.exp * 1000 < currentTime; // true si venció, false si es válido
   }
 
-  logOut(): void {
-    localStorage.clear();
+  // Decodificar el payload del token
+  private decodePayload(token: string): any {
+    const payload = token.split('.')[1];
+    const decodedPayload = atob(payload);
+    return JSON.parse(decodedPayload);
+  }
+
+  // Obtener el nombre de usuario del payload
+  getUserName(): string | null {
+    const payload = this.decodePayload(this.getToken() || '');
+    return payload?.username || null;
+  }
+
+  // Obtener el valor de 'descri' del payload
+  getDescri(): string | null {
+    const payload = this.decodePayload(this.getToken() || '');
+    return payload?.descri || null;
+  }
+
+  // Obtener los roles del usuario
+  getRoles(): string[] {
+    const payload = this.decodePayload(this.getToken() || '');
+    return payload?.roles || [];
+  }
+
+  // Validar si el usuario es administrador
+  isAdmin(): boolean {
+    const roles = this.getRoles();
+    return roles.includes('admin');
+  }
+
+  // Limpiar datos del token al cerrar sesión
+  clearToken(): void {
+    localStorage.removeItem(this.authTokenKey);
   }
 }

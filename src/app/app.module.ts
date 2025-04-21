@@ -10,10 +10,8 @@ import { MaterialModule } from './material/material.module';
 import { ModalComponent } from './shared/modal/modal.component';
 import { ModalSweetComponent } from './shared/modal-sweet/modal-sweet.component';
 import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.component';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { ToastrModule } from 'ngx-toastr';
-import { PersonalComponent } from './pages/personal/personal.component';
-import { ClientesComponent } from './pages/clientes/clientes.component';
+import { toastrConfig } from 'app-config';
 //import { BreadcrumbModule } from 'angular2-breadcrumb';
 
 @NgModule({
@@ -22,8 +20,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
     ModalComponent,
     ModalSweetComponent,
     ConfirmModalComponent,
-    PersonalComponent,
-    ClientesComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -31,14 +28,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    DashboardModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-right', // Cambia la posición aquí
-      timeOut: 5000,
-      closeButton: true,
-      progressBar: true,
-      preventDuplicates: true,
-    }),
+    ToastrModule.forRoot(toastrConfig),
   ],
   providers: [    {
     provide: HTTP_INTERCEPTORS,
