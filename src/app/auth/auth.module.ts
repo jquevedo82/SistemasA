@@ -9,7 +9,6 @@ import { AppComponent } from '../app.component';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MaterialModule } from '../material/material.module';
-import { AuthGuard } from './auth.guard';
 import { loginGuard } from './login.guard';
 
 

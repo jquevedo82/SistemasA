@@ -15,8 +15,10 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService,private tokenService: TokenService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+   //console.log(req)
     const token = this.tokenService.getToken();
     let authReq = req;
+
     if (!this.authService.isAuthenticated()) {
       return next.handle(req);
     }
@@ -28,9 +30,11 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     }
+    //console.log(token)
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
+        console.log("object")
         if (error.status === 401 && this.tokenService.isTokenExpired()) {
           console.log("Token vencido");
           this.authService.logout();

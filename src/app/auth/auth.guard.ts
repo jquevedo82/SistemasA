@@ -8,13 +8,13 @@ import { TokenService } from '../services/token.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private tokenService: TokenService, private router: Router) {}
+  constructor(private tokenService: TokenService, private authService: AuthService, private router: Router) { }
 
   canActivate(): boolean {
 
     const token = this.tokenService.getToken();
-
-    if (token && token!= undefined) {
+    console.log("PPP")
+    if (token && token != undefined && this.authService.isAuthenticated()) {
       //this.router.navigate(['dashboard']);
       return true; // El usuario está autenticado
     } else {

@@ -33,7 +33,9 @@ export class LoginComponent {
 
           if (!data.data) {
             this.toastrService.error(data.response.message);
-          } else { this.router.navigate(['/dashboard']); }
+          } else {
+            console.log("object56978")
+            this.router.navigate(['/dashboard']); }
           this.isSubmitting = false; // Rehabilitar el botón después de la respuesta
         },
         error: (err) => {

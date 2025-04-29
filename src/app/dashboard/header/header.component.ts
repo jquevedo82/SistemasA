@@ -43,9 +43,9 @@ export class HeaderComponent {
     }
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
+  // isAuthenticated(): boolean {
+  //   return this.authService.isAuthenticated();
+  // }
 
   logout(): void {
     this.authService.logout();

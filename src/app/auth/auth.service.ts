@@ -23,7 +23,7 @@ export class AuthService {
         localStorage.setItem(this.authTokenKey, response.data);
         this.tokenservice.setToken(response.data)
         this.currentUserSubject.next(username); // Opcional: manejar el usuario actual
-        this.toastrService.success('Login exitoso', 'Bienvenido');
+       // this.toastrService.success('Login exitoso', 'Bienvenido');
       }),
       catchError(error => {
         console.log("Error durante la solicitud de login:", error); // Detalle del error
@@ -33,11 +33,14 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    if (this.getToken() && this.getToken() !== 'undefined') {
-      return true;
-    }
-
+  const token = this.getToken();
+  console.log("99995")
+  if (this.tokenExpired(token)) {
+    console.warn("El token ha expirado, el usuario no está autenticado.");
     return false;
+  }
+
+    return true;
   }
   // Método para refrescar el token
   refreshToken(): Observable<any> {
@@ -68,10 +71,9 @@ export class AuthService {
     return localStorage.getItem(this.authTokenKey);
   }
   tokenExpired(token: any): boolean {
-    if (!this.isAuthenticated()) {
-      return true;
+    if (!token || token === 'undefined') {
+      return false;
     }
-    console.log(token+'7');
     const payload = token.split('.')[1];
     const values = atob(payload);
     const valuesJson = JSON.parse(values);

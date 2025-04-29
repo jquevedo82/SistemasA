@@ -13,9 +13,11 @@ export class loginGuard implements CanActivate {
   canActivate(): boolean {
     const token = this.tokenService.getToken();
 
-    if (!token || token== undefined) {
+    if (!token || token== undefined || this.tokenService.isTokenExpired()) {
+      console.log("object")
       return true; // El usuario está autenticado
     } else {
+      console.log("object2")
       this.router.navigate(['/dashboard']);
       return false;
     }
